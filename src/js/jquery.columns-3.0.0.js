@@ -9,6 +9,8 @@
  */
 
  ;(function($) {
+   "use strict";
+
    var Columns = function(options) {
     var defaults = {
           page: 1,
@@ -16,7 +18,7 @@
           template: '{{> search}} {{#table}} <div class="ui-columns-table" data-columns-table="true"> <table class="ui-table"><thead> {{#thead}} {{#sortable}} <th class="ui-table-sortable" data-columns-sortby="{{key}}">{{header}}</th> {{/sortable}}  {{#sortedUp}} <th class="ui-table-sort-up ui-table-sortable" data-columns-sortby="{{key}}">{{header}} <span class="ui-arrow">&#x25B2;</span></th> {{/sortedUp}} {{#sortedDown}} <th class="ui-table-sort-down ui-table-sortable" data-columns-sortby="{{key}}">{{header}} <span class="ui-arrow">&#x25BC;</span></th> {{/sortedDown}} {{^sortable}} <th class="">{{header}}</th> {{/sortable}} {{/thead}} </thead><tbody>{{#tbody}}<tr>{{{.}}}</tr>{{/tbody}}</tbody></table>{{/table}} {{> footer}}</div>',
           templateRow: '{{#row}}<td>{{.}}</td>{{/row}}',
           templateSearch: '{{#search}} <div class="ui-columns-search"> <input class="ui-table-search" placeholder="Search" type="text" name="query" data-columns-search="true" value="{{query}}" /> </div> {{/search}}',
-          templateFooter: '<div class="ui-table-footer"> <span class="ui-table-size">Show rows: {{{showRowsMenu}}}</span> <span class="ui-table-results">Results: <strong>{{resultRange.start}} &ndash; {{resultRange.end}}</strong> of <strong>{{tableTotal}}</strong> </span> <span class="ui-table-controls"> {{#prevPageExists}} <span class="ui-table-control-prev" data-columns-page="{{prevPage}}"> &lt; </span> {{/prevPageExists}} {{^prevPageExists}} <span class="ui-table-control-disabled"> &lt; </span> {{/prevPageExists}} {{#nextPageExists}} <span class="ui-table-control-next" data-columns-page="{{nextPage}}"> &gt; </span> {{/nextPageExists}} {{^nextPageExists}} <span class="ui-table-control-disabled"> &gt; </span> {{/nextPageExists}} </span> </div>'
+          templateFooter: '{{#footer}}<div class="ui-table-footer"> <span class="ui-table-size">Show rows: {{{showRowsMenu}}}</span> {{#range}}<span class="ui-table-results">Results: <strong>{{range.start}} &ndash; {{range.end}}</strong> of <strong>{{range.total}}</strong></span>{{/range}} <span class="ui-table-controls"> {{#prevPageExists}} <span class="ui-table-control-prev" data-columns-page="{{prevPage}}"> &lt; </span> {{/prevPageExists}} {{^prevPageExists}} <span class="ui-table-control-disabled"> &lt; </span> {{/prevPageExists}} {{#nextPageExists}} <span class="ui-table-control-next" data-columns-page="{{nextPage}}"> &gt; </span> {{/nextPageExists}} {{^nextPageExists}} <span class="ui-table-control-disabled"> &gt; </span> {{/nextPageExists}} </span> </div>{{/footer}}'
         },
         settings = $.extend({}, defaults, options),
         master = [],
@@ -38,7 +40,7 @@
 
         return schema;
       }
-    }
+    };
 
     var buildTheadModel = function(schema) {
       var thead = [];
@@ -50,7 +52,7 @@
       }
 
       return thead;
-    }
+    };
 
     var buildTbodyModel = function(schema, data) {
       var tbody = [];
@@ -60,7 +62,7 @@
       }
 
       return tbody;
-    }
+    };
 
     var buildRowModel = function(schema, data) {
       var row = [],
@@ -73,8 +75,11 @@
       }
 
       return Mustache.render(template, {row: row});
-    }
+    };
 
+    var buildFooterModel = function() {
+      return {range: settings.range}
+    };
 
 
     /* Data Helpers */
@@ -136,10 +141,14 @@
     }
 
     var setRange = function(currentPage, numberOfRows, totalRows) {
-      var start = ((currentPage -1) * (numberOfRows));
-      var end = (start + numberOfRows < totalRows) ? start + numberOfRows : totalRows;
+      var start = ((currentPage -1) * (numberOfRows)),
+          end = (start + numberOfRows < totalRows) ? start + numberOfRows : totalRows;
 
-      return {start:start+1, end:end};
+      return settings.range = {
+        start: start+1,
+        end: end,
+        total: totalRows
+      }
     };
 
 
@@ -230,14 +239,15 @@
         table: true,
         search: true,
         thead: buildTheadModel(settings.schema),
-        tbody: buildTbodyModel(settings.schema, temp)
+        tbody: buildTbodyModel(settings.schema, temp),
+        footer: buildFooterModel()
       }
 
       settings.$el.html(Mustache.render(template, model, {
         search: settings.templateSearch,
         footer: settings.templateFooter
       }));
-    }
+    };
 
     /* Initializing Plugin */
     copyData(); //create a master copy of the data
