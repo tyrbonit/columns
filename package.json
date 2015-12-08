@@ -1,0 +1,32 @@
+{
+  "name": "columns",
+  "version": "3.0.0",
+  "description": "Columns is an easy way of creating JSON data into HTML tables that are sortable, searchable, and paginating.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eisenbraun/columns.git"
+  },
+  "keywords": [
+    "jQuery",
+    "JSON",
+    "Table",
+    "Columns"
+  ],
+  "author": "Michael Eisenbraun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eisenbraun/columns/issues"
+  },
+  "homepage": "https://github.com/eisenbraun/columns",
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "mustache": "^2.2.0"
+  }
+}

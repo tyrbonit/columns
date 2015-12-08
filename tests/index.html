@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Columns 3.0.0 Testing</title>
+  </head>
+  <body>
+
+    <div id="example1" class="column"></div>
+    <div id="example2" class="column"></div>
+
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/mustache/mustache.min.js"></script>
+    <script src="../src/js/jquery.columns-3.0.0.js"></script>
+    <script>
+      $(document).ready(function() {
+        //$('.column').columns({}).outputCode();
+
+        var example1 = $('#example1').columns({
+          data: [
+              {'Emp. Number': 00001, 'First Name':'John', 'Last Name':'Smith' },
+              {'Emp. Number': 00002, 'First Name':'Jane', 'Last Name':'Doe' },
+              {'Emp. Number': 00003, 'First Name':'Ted', 'Last Name':'Johnson' },
+              {'Emp. Number': 00004, 'First Name':'Betty', 'Last Name':'Smith' },
+              {'Emp. Number': 00005, 'First Name':'Susan', 'Last Name':'Wilson' },
+              {'Emp. Number': 00006, 'First Name':'John', 'Last Name':'Doe' },
+              {'Emp. Number': 00007, 'First Name':'Bill', 'Last Name':'Watson' },
+              {'Emp. Number': 00008, 'First Name':'Walter', 'Last Name':'Wright' }
+          ],
+          schema: [
+            {header: 'Employee Number', key: 'Emp. Number', sortable: false},
+            {header: 'First Name', key: 'First Name', sortable: true, searchable: true},
+            {header: 'Last Name', key: 'Last Name', sortable: true, searchable: true}
+          ],
+          //sortBy: 'First Name',
+          //query: 'John'
+          page: 2
+        });
+
+        console.log($('#example1').columns('schema'));
+
+      });
+    </script>
+  </body>
+</html>
