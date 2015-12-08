@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Columns 3.0.0 Testing</title>
+    <link href="../css/clean.css" rel="stylesheet">
   </head>
   <body>
 
-    <div id="example1" class="column"></div>
-    <div id="example2" class="column"></div>
+    <div id="example1" class="columns"></div>
+    <div id="example2" class="columns"></div>
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/mustache/mustache.min.js"></script>
@@ -34,7 +35,7 @@
           ],
           //sortBy: 'First Name',
           //query: 'John'
-          page: 2
+          page: 1
         });
 
         console.log($('#example1').columns('schema'));
