@@ -13,14 +13,34 @@
 
    var Columns = function(options) {
     var defaults = {
+          //Page Settings
           page: 1,
           size: 5,
+
+          //Templates
           template: '{{> search}} {{#table}} <div class="ui-columns-table" data-columns-table="true"> <table class="ui-table"><thead> {{#thead}} {{#sortable}} <th class="ui-table-sortable" data-columns-sortby="{{key}}">{{header}}</th> {{/sortable}}  {{#sortedUp}} <th class="ui-table-sort-up ui-table-sortable" data-columns-sortby="{{key}}">{{header}} <span class="ui-arrow">&#x25B2;</span></th> {{/sortedUp}} {{#sortedDown}} <th class="ui-table-sort-down ui-table-sortable" data-columns-sortby="{{key}}">{{header}} <span class="ui-arrow">&#x25BC;</span></th> {{/sortedDown}} {{^sortable}} <th class="">{{header}}</th> {{/sortable}} {{/thead}} </thead><tbody>{{#tbody}}<tr>{{{.}}}</tr>{{/tbody}}</tbody></table>{{/table}} {{> footer}}</div>',
           templateRow: '{{#row}}<td>{{.}}</td>{{/row}}',
           templateSearch: '{{#search}} <div class="ui-columns-search"> <input class="ui-table-search" placeholder="Search" type="text" name="query" data-columns-search="true" value="{{query}}" /> </div> {{/search}}',
-          templateFooter: '{{#footer}}<div class="ui-table-footer"> <span class="ui-table-size">Show rows: {{{showRowsMenu}}}</span> {{#range}}<span class="ui-table-results">Results: <strong>{{range.start}} &ndash; {{range.end}}</strong> of <strong>{{range.total}}</strong></span>{{/range}} <span class="ui-table-controls"> {{#prevPageExists}} <span class="ui-table-control-prev" data-columns-page="{{prevPage}}"> &lt; </span> {{/prevPageExists}} {{^prevPageExists}} <span class="ui-table-control-disabled"> &lt; </span> {{/prevPageExists}} {{#nextPageExists}} <span class="ui-table-control-next" data-columns-page="{{nextPage}}"> &gt; </span> {{/nextPageExists}} {{^nextPageExists}} <span class="ui-table-control-disabled"> &gt; </span> {{/nextPageExists}} </span> </div>{{/footer}}'
+          templateFooter: '{{#footer}}<div class="ui-table-footer"> <span class="ui-table-size">Show rows: {{{showRowsMenu}}}</span> {{#range}}<span class="ui-table-results">Results: <strong>{{range.start}} &ndash; {{range.end}}</strong> of <strong>{{range.total}}</strong></span>{{/range}} <span class="ui-table-controls"> {{#prevPageExists}} <span class="ui-table-control-prev" data-columns-page="{{prevPage}}"> &lt; </span> {{/prevPageExists}} {{^prevPageExists}} <span class="ui-table-control-disabled"> &lt; </span> {{/prevPageExists}} {{#nextPageExists}} <span class="ui-table-control-next" data-columns-page="{{nextPage}}"> &gt; </span> {{/nextPageExists}} {{^nextPageExists}} <span class="ui-table-control-disabled"> &gt; </span> {{/nextPageExists}} </span> </div>{{/footer}}',
+
+          //Event Handlers
+          sort: function(e) {
+              e.preventDefault();
+
+              var sortBy = $(this).data('columns-sortby');
+
+              if(settings.sortBy === sortBy) {
+                  settings.reverse = !settings.reverse;
+              }
+
+              settings.sortBy = sortBy
+              setPage(1);
+
+              createTable();
+          }
         },
         settings = $.extend({}, defaults, options),
+        $el = settings.$el,
         master = [],
         date = /^(Jan|January|Feb|February|Mar|March|Apr|April|May|Jun|June|Jul|July|Aug|August|Sep|September|Oct|October|Nov|November|Dec|December|(0?\d{1})|(10|11|12))(-|\s|\/|\.)(0?[1-9]|(1|2)[0-9]|3(0|1))(-|\s|\/|\.|,\s)(19|20)?\d\d$/i;
 
@@ -249,9 +269,44 @@
       }));
     };
 
-    /* Initializing Plugin */
+    /** Initializing Plugin */
     copyData(); //create a master copy of the data
     settings.schema = buildSchema(settings.data);
+
+
+    $el.addClass('columns');
+
+    /** creating listeners */
+
+    /** sort listener */
+    $el.on('click', '.ui-table-sortable', settings.sort);
+
+    $el.on('click', '.ui-table-control-next, .ui-table-control-prev', function(event) {
+        $this.page = $(this).data('columns-page');
+
+        $this.pageHandler(event);
+    });
+
+    /** page listener */
+    // $this.$el.on('click', '.ui-table-control-next, .ui-table-control-prev', function(event) {
+    //     $this.page = $(this).data('columns-page');
+    //
+    //     $this.pageHandler(event);
+    // });
+    //
+    // /** search listener */
+    // $this.$el.on('keyup', '.ui-table-search', function(event) {
+    //     $this.query = $(this).val();
+    //
+    //     $this.searchHandler(event);
+    // });
+    //
+    // /** size listener */
+    // $this.$el.on('change', '.ui-table-size select', function(event) {
+    //     $this.size = parseInt($(this).val());
+    //
+    //     $this.sizeHandler(event);
+    // });
 
     createTable();
 
