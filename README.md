@@ -1,30 +1,30 @@
 ## Columns
-#### by Michael Eisenbraun
+#### от Michael Eisenbraun
 
-Columns is an easy way of creating JSON data into HTML tables that are sortable, searchable, and paginating. All you need is to provide the data, and Columns will do the rest.
+Плагин Columns это простой способ создания HTML таблицы на основе JSON данных, которая обладают сортировкой, поиском и функцией пагинации. Всё, что вам нужно, так это предоставить данные, плагин Columns сделает все остальное.
 
-### Installation
+### Установка
 
-Include the jQuery Library 1.7 or later and Columns Plugin File: 
+Подключите к вашей веб-странице jQuery библиотеку версии 1.7 или выше и файл плагина Columns: 
 
 ```
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="js/jquery.columns.min.js"></script>
 ```
 
-Include a pre-built Columns theme or create your own
+Подключите готовую тему оформления Columns или создайте собственную
 
 ```
 <link rel="stylesheet" href="css/classic.css">
 ```
 
-Because Columns create all the necessary HTML dynamically, the only HTML needed is a empty HTML element, such as a `<div>` tag, with the corresponding id as using in the initialization.
+Так как Columns создает все необходимые HTML-тэги динамически, то в HTML-коде необходимо только добавить пустой HTML-элемент, например,  `<div>` тэг, имеющий соответствующий id для инициализации.
 
 ```
 <div id="columns"></div>
 ```
 
-Finally, initialize Columns. 
+К конце, выполните инициализизацию Columns.
 
 ```
 <script>
@@ -35,4 +35,4 @@ Finally, initialize Columns.
 </script>
 ```
 
-For more information, see the full [documentation](http://eisenbraun.github.io/columns)
+Подробнее, смотрите [документацию](http://eisenbraun.github.io/columns)
