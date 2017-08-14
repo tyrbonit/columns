@@ -35,4 +35,4 @@
 </script>
 ```
 
-Больше информации смотрите полную документацию [на английском](http://eisenbraun.github.io/columns) и [перевод](https://github.com/tyrbonit/columns/wiki)
+Больше информации смотрите в полной документации [на английском](http://eisenbraun.github.io/columns) и [русском](https://github.com/tyrbonit/columns/wiki)
